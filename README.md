@@ -21,9 +21,19 @@ if (![db open]) {
 //update 更新
 [db executeUpdate:@"UPDATE PersonList SET Age = ? WHERE Name = ?",[NSNumber numberWithInt:30],@“John”];   
 
-//FMResultSet *rs = [db executeQuery:@"SELECT Name, Age, FROM PersonList"];
+//在结果集中查询
+FMResultSet *rs = [db executeQuery:@"SELECT Name, Age, FROM PersonList"];
 while ([rs next]) {
 NSString *name = [rs stringForColumn:@"Name"];
 int age = [rs intForColumn:@"Age"];
 }
 [rs close];
+
+//特征查找
+
+NSString *address = [db stringForQuery:@"SELECT Address FROM PersonList WHERE Name = ?",@"John”];
+
+//找年齡
+
+int age = [db intForQuery:@"SELECT Age FROM PersonList WHERE Name = ?",@"John”];
+
